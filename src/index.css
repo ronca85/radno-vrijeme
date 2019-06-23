@@ -1,13 +1,29 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html, body {
+	min-height: 100%;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+body {
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: #191919;
+	background-image: radial-gradient(circle at 100% 150%, #191919 24%, #111 25%, #111 28%, #191919 29%, #191919 36%, #111 36%, #111 40%, transparent 40%, transparent), radial-gradient(circle at 0px 150%, #191919 24%, #111 25%, #111 28%, #191919 29%, #191919 36%, #111 36%, #111 40%, transparent 40%, transparent), radial-gradient(circle at 50% 100%, #111 10%, #191919 11%, #191919 23%, #111 24%, #111 30%, #191919 31%, #191919 43%, #111 44%, #111 50%, #191919 51%, #191919 63%, #111 64%, #111 71%, transparent 71%, transparent), radial-gradient(circle at 100% 50%, #111 5%, #191919 6%, #191919 15%, #111 16%, #111 20%, #191919 21%, #191919 30%, #111 31%, #111 35%, #191919 36%, #191919 45%, #111 46%, #111 49%, transparent 50%, transparent), radial-gradient(circle at 0px 50%, #111 5%, #191919 6%, #191919 15%, #111 16%, #111 20%, #191919 21%, #191919 30%, #111 31%, #111 35%, #191919 36%, #191919 45%, #111 46%, #111 49%, transparent 50%, transparent); background-size: 100px 50px;
 }
+
+form {
+	padding: 20px;
+	margin-top: 60px;
+}
+
+form button, form h5 {
+	margin: 20px 0;
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+	border-color: #ec407a;
+	box-shadow: none;
+}
+

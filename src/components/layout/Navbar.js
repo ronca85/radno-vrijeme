@@ -8,7 +8,7 @@ const Navbar = () => {
 		<nav className="wrapper grey darken-2">
 			<div className="container">
 				<Link to="/" className="brand-logo">
-					Brand Logo
+					Radno vrijeme
 				</Link>
 				<SignedInLinks />
 				<SignedOutLinks />
