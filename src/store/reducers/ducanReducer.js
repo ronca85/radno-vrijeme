@@ -12,7 +12,7 @@ const ducanReducer = (state = initState, action) => {
 			console.log("dućan unesen", action.ducan);
 			return state;
 		case "UNESI_DUCAN_GRESKA":
-			console.log("greša kod unosa dućana", action.err);
+			console.log("greška kod unosa dućana", action.err);
 			return state;
 		default:
 			return state;

@@ -14,7 +14,7 @@ function App() {
 				<Navbar />
 				<Switch>
 					<Route exact path="/" component={Dashboard} />
-					<Route path="/project/:id" component={DucanDetalji} />
+					<Route path="/ducan/:id" component={DucanDetalji} />
 					<Route path="/prijava" component={PrijaviSe} />
 					<Route path="/registracija" component={RegistrirajSe} />
 					<Route path="/unesi" component={UnesiDucan} />
@@ -25,3 +25,4 @@ function App() {
 }
 
 export default App;
+

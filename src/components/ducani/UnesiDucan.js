@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { unesiNoviDucan } from '../../store/actions/ducanActions';
+import { Redirect } from 'react-router-dom';
 
 class UnesiDucan extends Component {
 	state = {
@@ -20,9 +21,14 @@ class UnesiDucan extends Component {
 		e.preventDefault();
 		// console.log(this.state);
 		this.props.unesiNoviDucan(this.state)
+		this.props.history.push('/')
 	}
 
 	render() {
+
+		const { auth } = this.props;
+		if ( !auth.uid ) return <Redirect to='/prijava' />
+
 		return (
 			<div className="container">
 				<form onSubmit={this.handleSubmit} className="white">
@@ -44,11 +50,17 @@ class UnesiDucan extends Component {
 	}
 }
 
+const mapStateToProps = (state) => {
+	return {
+		auth: state.firebase.auth
+	}
+}
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		unesiNoviDucan: (ducan) => dispatch(unesiNoviDucan(ducan))
 	}
 }
 
-export default connect(null, mapDispatchToProps)(UnesiDucan)
+export default connect(mapStateToProps, mapDispatchToProps)(UnesiDucan)
 

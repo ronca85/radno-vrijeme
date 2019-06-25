@@ -1,24 +1,55 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
+import { Redirect } from 'react-router-dom'
+import moment from 'moment'
 
 const DucanDetalji = (props) => {
-	console.log(props);
 	
-	const id = props.match.params.id;
+	const { ducan, auth } = props;
 
-	return (
-		<div className="container section project-details">
-			<div className="card z-depth-0">
-				<div className="card-content">
-					<span className="card-title">Ime dućana - id: {id}</span>
-					<p>bavimo se...</p>
-				</div>
-				<div className="card-action grey lighten-4 grey/text">
-					<div>Unio: Ime Prezime</div>
-					<div>7.11.2019. u 6:10</div>
+	if ( !auth.uid ) return <Redirect to='/prijava' />
+
+	if ( ducan ) {
+		return (
+			<div className="container section project-details">
+				<div className="card z-depth-0">
+					<div className="card-content">
+						<span className="card-title">{ ducan.imeDucana }</span>
+						<p>{ ducan.sadrzajDucana }</p>
+					</div>
+					<div className="card-action grey lighten-4 grey/text">
+						<div>Unio: { ducan.autorIme } { ducan.autorPrezime }</div>
+						<div>{ moment(ducan.datumUnosa.toDate()).calendar() }</div>
+					</div>
 				</div>
 			</div>
-		</div>
-	)
+		)
+	} else {
+		return (
+			<div className="container center">
+				<p>Dohvaćam dućan...</p>
+			</div>
+		)
+	}
 }
 
-export default DucanDetalji
+const mapStateToProps = (state, ownProps) => {
+	// console.log("ownProps", ownProps);
+	const id = ownProps.match.params.id;
+	const ducani = state.firestore.data.ducani;
+	const ducan = ducani ? ducani[id] : null
+	return {
+		ducan : ducan,
+		auth : state.firebase.auth
+	}
+}
+
+export default compose(
+	connect(mapStateToProps),
+	firestoreConnect([
+		{ collection: 'ducani' }
+	])
+)(DucanDetalji)
+

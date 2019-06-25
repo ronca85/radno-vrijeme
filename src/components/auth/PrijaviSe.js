@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { prijava } from '../../store/actions/authActions'
+import { Redirect } from 'react-router-dom'
 
 class PrijaviSe extends Component {
 	state = {
@@ -16,10 +19,15 @@ class PrijaviSe extends Component {
 	handleSubmit = (e) => {
 		// console.log("submit", e);
 		e.preventDefault();
-		console.log(this.state);
+		// console.log(this.state);
+		this.props.prijava(this.state);
 	}
 
 	render() {
+
+		const { authError, auth } = this.props;
+		if ( auth.uid ) return <Redirect to='/' />
+		
 		return (
 			<div className="container">
 				<form onSubmit={this.handleSubmit} className="white">
@@ -34,6 +42,9 @@ class PrijaviSe extends Component {
 					</div>
 					<div className="input-field">
 						<button className="btn pink lighten-1 z-depth-0">Prijava</button>
+						<div className="red-text center">
+							{ authError ? <p>{authError}</p> : null }
+						</div>
 					</div>
 				</form>
 			</div>
@@ -41,4 +52,18 @@ class PrijaviSe extends Component {
 	}
 }
 
-export default PrijaviSe
+const mapStateToProps = (state) => {
+	return {
+		authError : state.auth.authError,
+		auth : state.firebase.auth
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		prijava : (creds) => dispatch(prijava(creds))
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrijaviSe)
+

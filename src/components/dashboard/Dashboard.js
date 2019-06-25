@@ -2,13 +2,17 @@ import React, { Component } from 'react'
 import Notifications from './Notifications'
 import ListaDucana from '../ducani/ListaDucana'
 import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
+import { Redirect } from 'react-router-dom'
 
 class Dashboard extends Component {
 	render() {
 		
 		// console.log(this.props);
 
-		const { ducani } = this.props;
+		const { ducani, auth, notifications } = this.props;
+		if ( !auth.uid ) return <Redirect to='/prijava' />
 
 		return (
 			<div className="dashboard container">
@@ -17,7 +21,7 @@ class Dashboard extends Component {
 						<ListaDucana ducani={ducani} />
 					</div>
 					<div className="col s12 m5 offset-m1">
-						<Notifications />
+						<Notifications notifications={notifications} />
 					</div>
 				</div>
 			</div>
@@ -26,10 +30,20 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
+	console.log(state);
 	return {
-		ducani: state.ducanProperty.ducanStuff
+		// ducani: state.ducanProperty.ducanStuff
+		ducani : state.firestore.ordered.ducani,
+		auth : state.firebase.auth,
+		notifications : state.firestore.ordered.notifications
 	}
 }
 
-export default connect(mapStateToProps)(Dashboard)
+export default compose(
+	connect(mapStateToProps),
+	firestoreConnect([
+		{ collection : 'ducani', orderBy : ['datumUnosa', 'desc'] },
+		{ collection : 'notifications', limit : 3, orderBy : ['time', 'desc'] }
+	])
+)(Dashboard)
 

@@ -3,11 +3,13 @@ export const unesiNoviDucan = (ducan) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		// make async call to database
 		const firestore = getFirestore();
+		const profilKorisnika = getState().firebase.profile;
+		const autorID = getState().firebase.auth.uid;
 		firestore.collection('ducani').add({
 			...ducan,
-			autorIme: "Vinko",
-			autorPrezime: "Vincetić",
-			autorID: 12345,
+			autorIme: profilKorisnika.autorIme,
+			autorPrezime: profilKorisnika.autorPrezime,
+			autorID: autorID,
 			datumUnosa: new Date()
 		}).then( () => {
 			dispatch({ type: "UNESI_DUCAN", ducan })
